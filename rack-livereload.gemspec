@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "rack-livereload"
 
 Gem::Specification.new do |s|
-  s.name        = "rack-livereload"
+  s.name        = "leifcr-rack-livereload"
   s.version     = Rack::LiveReload::VERSION
   s.authors     = ["John Bintz"]
   s.email       = ["john@coswellproductions.com"]
