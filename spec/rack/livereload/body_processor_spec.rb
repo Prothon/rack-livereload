@@ -9,9 +9,9 @@ describe Rack::LiveReload::BodyProcessor do
     it { should be_kind_of(Regexp) }
 
     it 'only picks a valid <head> tag' do
-      regex.match("<head></head>").to_s.should eq('<head>')
-      regex.match("<head><title></title></head>").to_s.should eq('<head>')
-      regex.match("<head attribute='something'><title></title></head>").to_s.should eq("<head attribute='something'>")
+      expect(regex.match("<head></head>").to_s).to eq('<head>')
+      expect(regex.match("<head><title></title></head>").to_s).to eq('<head>')
+      expect(regex.match("<head attribute='something'><title></title></head>").to_s).to eq("<head attribute='something'>")
     end
 
     it 'responds false when no head tag' do
@@ -106,7 +106,7 @@ describe Rack::LiveReload::BodyProcessor do
 
       it 'should add the livereload js script tag before all other script tags' do
         body_dom.at_css("head")[:attribute].should == 'attribute'
-        body_dom.at_css("script:eq(5)")[:src].should include(described_class::LIVERELOAD_JS_PATH)
+        body_dom.at_css("script:eq(2)")[:src].should include(described_class::LIVERELOAD_JS_PATH)
         body_dom.at_css("script:last-child")[:insert].should == "before"
       end
 
@@ -116,7 +116,7 @@ describe Rack::LiveReload::BodyProcessor do
         end
 
         it 'should prepend the relative path to the script src' do
-          body_dom.at_css("script:eq(5)")[:src].should match(%r{^/a_relative_path/})
+          body_dom.at_css("script:eq(2)")[:src].should match(%r{^/a_relative_path/})
         end
       end
     end
