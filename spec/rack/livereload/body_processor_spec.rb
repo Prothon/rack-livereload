@@ -96,9 +96,6 @@ describe Rack::LiveReload::BodyProcessor do
         length.to_s.should == processed_body.length.to_s
 
         described_class::LIVERELOAD_JS_PATH.should_not include(host)
-
-        processed_body.should include('swfobject')
-        processed_body.should include('web_socket')
       end
     end
 
@@ -169,25 +166,6 @@ describe Rack::LiveReload::BodyProcessor do
       end
     end
 
-    context 'force flash' do
-      let(:options) { { :force_swf => true } }
-
-      it 'should not add the flash shim' do
-        processed_body.should include('WEB_SOCKET_FORCE_FLASH')
-        processed_body.should include('swfobject')
-        processed_body.should include('web_socket')
-      end
-    end
-
-    context 'no flash' do
-      let(:options) { { :no_swf => true } }
-
-      it 'should not add the flash shim' do
-        processed_body.should_not include('swfobject')
-        processed_body.should_not include('web_socket')
-      end
-    end
-
     context 'no host at all' do
       let(:env) { {} }
 
@@ -197,4 +175,3 @@ describe Rack::LiveReload::BodyProcessor do
     end
   end
 end
-

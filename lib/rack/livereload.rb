@@ -39,15 +39,7 @@ module Rack
 
     private
     def deliver_file(file)
-      type = case ::File.extname(file)
-             when '.js'
-               'text/javascript'
-             when '.swf'
-               'application/swf'
-             end
-
-      [ 200, { 'Content-Type' => type, 'Content-Length' => ::File.size(file).to_s }, [ ::File.read(file) ] ]
+      [ 200, { 'Content-Type' => 'text/javascript', 'Content-Length' => ::File.size(file).to_s }, [ ::File.read(file) ] ]
     end
   end
 end
-

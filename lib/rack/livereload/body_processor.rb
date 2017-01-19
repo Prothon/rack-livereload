@@ -24,14 +24,6 @@ module Rack
         @processed = false
       end
 
-      def force_swf?
-        @options[:force_swf]
-      end
-
-      def with_swf?
-        !@options[:no_swf]
-      end
-
       def use_vendored?
         return @use_vendored if @use_vendored
 
@@ -113,4 +105,3 @@ module Rack
     end
   end
 end
-
