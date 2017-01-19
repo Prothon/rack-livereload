@@ -6,7 +6,7 @@ describe Rack::LiveReload::BodyProcessor do
     let(:regex) { described_class::HEAD_TAG_REGEX }
     subject { regex }
 
-    it { should be_kind_of(Regexp) }
+    it { is_expected.to be_kind_of(Regexp) }
 
     it 'only picks a valid <head> tag' do
       expect(regex.match("<head></head>").to_s).to eq('<head>')
@@ -15,7 +15,7 @@ describe Rack::LiveReload::BodyProcessor do
     end
 
     it 'responds false when no head tag' do
-      regex.match("<header></header>").should be_falsey
+      expect(regex.match("<header></header>")).to be_falsey
     end
   end
 
@@ -40,7 +40,7 @@ describe Rack::LiveReload::BodyProcessor do
         stub_request(:any, 'localhost:35729/livereload.js').to_timeout
       end
 
-      it { should use_vendored }
+      it { is_expected.to use_vendored }
     end
 
     context 'exists' do
@@ -48,7 +48,7 @@ describe Rack::LiveReload::BodyProcessor do
         stub_request(:any, 'localhost:35729/livereload.js')
       end
 
-      it { should_not use_vendored }
+      it { is_expected.not_to use_vendored }
     end
 
     context 'with custom port' do
@@ -58,20 +58,20 @@ describe Rack::LiveReload::BodyProcessor do
         before do
           stub_request(:any, 'localhost:12348/livereload.js')
         end
-        it { should_not use_vendored }
+        it { is_expected.not_to use_vendored }
       end
     end
 
     context 'specify vendored' do
       let(:options) { { :source => :vendored } }
 
-      it { should use_vendored }
+      it { is_expected.to use_vendored }
     end
 
     context 'specify LR' do
       let(:options) { { :source => :livereload } }
 
-      it { should_not use_vendored }
+      it { is_expected.not_to use_vendored }
     end
   end
 
@@ -90,12 +90,12 @@ describe Rack::LiveReload::BodyProcessor do
 
     context 'vendored' do
       it 'should add the vendored livereload js script tag' do
-        processed_body.should include("script")
-        processed_body.should include(described_class::LIVERELOAD_JS_PATH)
+        expect(processed_body).to include("script")
+        expect(processed_body).to include(described_class::LIVERELOAD_JS_PATH)
 
-        length.to_s.should == processed_body.length.to_s
+        expect(length.to_s).to eq(processed_body.length.to_s)
 
-        described_class::LIVERELOAD_JS_PATH.should_not include(host)
+        expect(described_class::LIVERELOAD_JS_PATH).not_to include(host)
       end
     end
 
@@ -105,9 +105,9 @@ describe Rack::LiveReload::BodyProcessor do
       let(:body_dom) { Nokogiri::XML(processed_body) }
 
       it 'should add the livereload js script tag before all other script tags' do
-        body_dom.at_css("head")[:attribute].should == 'attribute'
-        body_dom.at_css("script:eq(2)")[:src].should include(described_class::LIVERELOAD_JS_PATH)
-        body_dom.at_css("script:last-child")[:insert].should == "before"
+        expect(body_dom.at_css("head")[:attribute]).to eq('attribute')
+        expect(body_dom.at_css("script:eq(2)")[:src]).to include(described_class::LIVERELOAD_JS_PATH)
+        expect(body_dom.at_css("script:last-child")[:insert]).to eq("before")
       end
 
       context 'when a relative URL root is specified' do
@@ -116,7 +116,7 @@ describe Rack::LiveReload::BodyProcessor do
         end
 
         it 'should prepend the relative path to the script src' do
-          body_dom.at_css("script:eq(2)")[:src].should match(%r{^/a_relative_path/})
+          expect(body_dom.at_css("script:eq(2)")[:src]).to match(%r{^/a_relative_path/})
         end
       end
     end
@@ -125,7 +125,7 @@ describe Rack::LiveReload::BodyProcessor do
       let(:options) { { :live_reload_port => 12345 }}
 
       it "sets the variable at the top of the file" do
-        processed_body.should include 'RACK_LIVERELOAD_PORT = 12345'
+        expect(processed_body).to include 'RACK_LIVERELOAD_PORT = 12345'
       end
     end
 
@@ -135,8 +135,8 @@ describe Rack::LiveReload::BodyProcessor do
       let(:body_dom) { Nokogiri::XML(processed_body) }
 
       it 'should not add the livereload js' do
-        body_dom.at_css("header")[:class].should == 'hero'
-        body_dom.css('script').should be_empty
+        expect(body_dom.at_css("header")[:class]).to eq('hero')
+        expect(body_dom.css('script')).to be_empty
       end
     end
 
@@ -146,8 +146,8 @@ describe Rack::LiveReload::BodyProcessor do
       end
 
       it 'should add the LR livereload js script tag' do
-        processed_body.should include("script")
-        processed_body.should include(processor.livereload_local_uri.gsub('localhost', 'host'))
+        expect(processed_body).to include("script")
+        expect(processed_body).to include(processor.livereload_local_uri.gsub('localhost', 'host'))
       end
     end
 
@@ -159,10 +159,10 @@ describe Rack::LiveReload::BodyProcessor do
       let(:new_host) { 'myhost' }
 
       it 'should add the livereload.js script tag' do
-        processed_body.should include("mindelay=#{min_delay}")
-        processed_body.should include("maxdelay=#{max_delay}")
-        processed_body.should include("port=#{port}")
-        processed_body.should include("host=#{new_host}")
+        expect(processed_body).to include("mindelay=#{min_delay}")
+        expect(processed_body).to include("maxdelay=#{max_delay}")
+        expect(processed_body).to include("port=#{port}")
+        expect(processed_body).to include("host=#{new_host}")
       end
     end
 
@@ -170,7 +170,7 @@ describe Rack::LiveReload::BodyProcessor do
       let(:env) { {} }
 
       it 'should use localhost' do
-        processed_body.should include('localhost')
+        expect(processed_body).to include('localhost')
       end
     end
   end
