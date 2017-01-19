@@ -14,7 +14,7 @@ describe Rack::LiveReload::ProcessingSkipAnalyzer do
 
   describe '#skip_processing?' do
     it "should skip processing" do
-      subject.skip_processing?.should be_truthy
+      expect(subject.skip_processing?).to be_truthy
     end
   end
 
@@ -24,25 +24,25 @@ describe Rack::LiveReload::ProcessingSkipAnalyzer do
     context 'path contains ignore pattern' do
       let(:env) { { 'PATH_INFO' => '/this/file', 'QUERY_STRING' => '' } }
 
-      it { should be_ignored }
+      it { is_expected.to be_ignored }
     end
 
     context 'root path' do
       let(:env) { { 'PATH_INFO' => '/', 'QUERY_STRING' => '' } }
 
-      it { should_not be_ignored }
+      it { is_expected.not_to be_ignored }
     end
   end
 
   describe '#chunked?' do
     context 'regular response' do
-      it { should_not be_chunked }
+      it { is_expected.not_to be_chunked }
     end
 
     context 'chunked response' do
       let(:headers) { { 'Transfer-Encoding' => 'chunked' } }
 
-      it { should be_chunked }
+      it { is_expected.to be_chunked }
     end
   end
 
@@ -50,7 +50,7 @@ describe Rack::LiveReload::ProcessingSkipAnalyzer do
     context 'inline disposition' do
       let(:headers) { { 'Content-Disposition' => 'inline; filename=my_inlined_file' } }
 
-      it { should be_inline }
+      it { is_expected.to be_inline }
     end
   end
 
@@ -60,31 +60,31 @@ describe Rack::LiveReload::ProcessingSkipAnalyzer do
     let(:env) { { 'PATH_INFO' => path_info, 'QUERY_STRING' => query_string } }
 
     context 'no ignore set' do
-      it { should_not be_ignored }
+      it { is_expected.not_to be_ignored }
     end
 
     context 'ignore set' do
       let(:options) { { :ignore => [ %r{#{path_info}} ] } }
 
-      it { should be_ignored }
+      it { is_expected.to be_ignored }
     end
 
     context 'ignore set including query_string' do
       let(:options) { { :ignore => [ %r{#{path_info}\?#{query_string}} ] } }
 
-      it { should be_ignored }
+      it { is_expected.to be_ignored }
     end
   end
 
   describe '#bad_browser?' do
     context 'Firefox' do
-      it { should_not be_bad_browser }
+      it { is_expected.not_to be_bad_browser }
     end
 
     context 'BAD browser' do
       let(:user_agent) { described_class::BAD_USER_AGENTS.first.source }
 
-      it { should be_bad_browser }
+      it { is_expected.to be_bad_browser }
     end
   end
 
@@ -92,13 +92,13 @@ describe Rack::LiveReload::ProcessingSkipAnalyzer do
     context 'HTML content' do
       let(:headers) { { 'Content-Type' => 'text/html' } }
 
-      it { should be_html }
+      it { is_expected.to be_html }
     end
 
     context 'PDF content' do
       let(:headers) { { 'Content-Type' => 'application/pdf' } }
 
-      it { should_not be_html }
+      it { is_expected.not_to be_html }
     end
   end
 
@@ -106,31 +106,31 @@ describe Rack::LiveReload::ProcessingSkipAnalyzer do
     context 'GET request' do
       let(:env) { { 'REQUEST_METHOD' => 'GET' } }
 
-      it { should be_get }
+      it { is_expected.to be_get }
     end
 
     context 'PUT request' do
       let(:env) { { 'REQUEST_METHOD' => 'PUT' } }
 
-      it { should_not be_get }
+      it { is_expected.not_to be_get }
     end
 
     context 'POST request' do
       let(:env) { { 'REQUEST_METHOD' => 'POST' } }
 
-      it { should_not be_get }
+      it { is_expected.not_to be_get }
     end
 
     context 'DELETE request' do
       let(:env) { { 'REQUEST_METHOD' => 'DELETE' } }
 
-      it { should_not be_get }
+      it { is_expected.not_to be_get }
     end
 
     context 'PATCH request' do
       let(:env) { { 'REQUEST_METHOD' => 'PATCH' } }
 
-      it { should_not be_get }
+      it { is_expected.not_to be_get }
     end
   end
 end
