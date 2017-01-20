@@ -1,5 +1,5 @@
-<% if defined?(SecureHeaders) %>
-<script type="text/javascript" nonce="<%= content_security_policy_script_nonce %>">
+<% if @options[:nonce] %>
+<script type="text/javascript" nonce="<%= @options[:nonce] %>">
   RACK_LIVERELOAD_PORT = <%= @options[:live_reload_port] %>;
 </script>
 <% else %>

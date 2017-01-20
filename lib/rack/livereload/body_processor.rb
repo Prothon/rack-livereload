@@ -1,5 +1,5 @@
 require 'rack/livereload'
-
+require 'rack/request'
 module Rack
   class LiveReload
     class BodyProcessor
@@ -86,6 +86,10 @@ module Rack
       end
 
       def template
+        if defined?(SecureHeaders)
+          req = Rack::Request.new(@env)
+          @options[:nonce] = SecureHeaders.content_security_policy_script_nonce(req)
+        end
         ERB.new(::File.read(::File.expand_path('../../../../skel/livereload.html.erb', __FILE__)))
       end
 
