@@ -1,6 +1,7 @@
-require "rack/livereload"
+require 'rack/livereload'
 
-class Rack::LiveReload
-  VERSION = '0.3.17'
+module Rack
+  class LiveReload
+    VERSION = '0.3.18'.freeze
+  end
 end
-
