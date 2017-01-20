@@ -14,7 +14,9 @@ Use this with [guard-livereload](http://github.com/guard/guard-livereload) for m
 Add the gem to your Gemfile.
 
 ```ruby
-gem "rack-livereload", group: :development
+group :development do
+  gem 'leifcr-rack-livereload', require 'rack-livereload'
+end
 ```
 
 Then add the middleware to your Rails middleware stack by editing your `config/environments/development.rb`.
