@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "rack-livereload"
+# $:.push File.expand_path("../lib", __FILE__)
+$LOAD_PATH.push File.expand_path("../lib", __FILE__)
+require "rack/livereload/version"
 
 Gem::Specification.new do |s|
   s.name        = "leifcr-rack-livereload"
