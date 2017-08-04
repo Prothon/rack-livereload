@@ -15,7 +15,7 @@ Add the gem to your Gemfile.
 
 ```ruby
 group :development do
-  gem 'leifcr-rack-livereload', require 'rack-livereload'
+  gem 'leifcr-rack-livereload', require: 'rack-livereload'
 end
 ```
 
