@@ -4,10 +4,10 @@ $LOAD_PATH.push File.expand_path("../lib", __FILE__)
 require "rack/livereload/version"
 
 Gem::Specification.new do |s|
-  s.name        = "leifcr-rack-livereload"
+  s.name        = "rack-livereload"
   s.version     = Rack::LiveReload::VERSION
-  s.authors     = ["John Bintz"]
-  s.email       = ["john@coswellproductions.com"]
+  s.authors     = ["Andrew Raymer"]
+  s.email       = ["andrewraymer@gmail.com"]
   s.homepage    = ""
   s.license     = "MIT"
   s.summary     = %q{Insert LiveReload into your app easily as Rack middleware}
